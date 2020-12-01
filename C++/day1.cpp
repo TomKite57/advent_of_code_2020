@@ -12,19 +12,14 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <stdlib.h>
 #include <vector>
 
 vector<int> read_data(string filename)
 {
     ifstream ifile;
     ifile.open(filename);
-    if (!ifile.is_open())
-    {
-        cout << "Could not open file: '" << filename << "'!" << endl;
-        system("pause");
-        exit(0);
-    }
+
+    if (!ifile) { throw; }
 
     vector<int> data{};
     string line;
@@ -32,7 +27,6 @@ vector<int> read_data(string filename)
     {
         data.push_back(atoi(line.c_str()));
     }
-
     ifile.close();
     return data;
 }
@@ -70,11 +64,12 @@ int find_3_sum(vector<int> data, int total=2020)
 
 int main()
 {
-    vector<int> data = read_data("../data/day1.dat");
+    vector<int> data;
+    try { data = read_data("../data/day1.dat"); }
+    catch (...) { cout << "Could not open file!" << endl; return 1; }
 
     cout << find_2_sum(data) << endl;
     cout << find_3_sum(data) << endl;
 
-    system("pause");
     return 0;
 }
