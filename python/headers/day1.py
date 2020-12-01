@@ -14,9 +14,8 @@ import numpy as np
 def part1(filename):
     data = np.genfromtxt(filename, dtype='int')
 
-    for i in range(len(data)):
-        for j in range(i+1, len(data)):
-            num_a, num_b = data[[i, j]]
+    for i, num_a in enumerate(data):
+        for j, num_b in enumerate(data[i+1:]):
             if num_a + num_b == 2020:
                 print("The numbers are {} and {}.\n"
                       "Giving a product of {}."
@@ -27,14 +26,11 @@ def part1(filename):
 def part2(filename):
     data = np.genfromtxt(filename, dtype='int')
 
-    for i in range(len(data)):
-        num_a = data[i]
-        for j in range(i+1, len(data)):
-            num_b = data[j]
+    for i, num_a in enumerate(data):
+        for j, num_b in enumerate(data[i+1:]):
             if num_a + num_b >= 2020:
                 continue
-            for k in range(j+1, len(data)):
-                num_c = data[k]
+            for k, num_c in enumerate(data[j+1:]):
                 if num_a + num_b + num_c == 2020:
                     print("The numbers are {}, {} and {}.\n"
                           "Giving a product of {}."
