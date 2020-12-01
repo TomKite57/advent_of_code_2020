@@ -40,6 +40,6 @@ def part2(filename):
 
 if __name__ == "__main__":
     print("Part 1:")
-    part1("../data/day1.dat")
+    part1("../../data/day1.dat")
     print("\nPart 2:")
-    part2("../data/day1.dat")
+    part2("../../data/day1.dat")
