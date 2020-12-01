@@ -10,10 +10,8 @@ Tom Kite - 01/12/2020
 
 import numpy as np
 
-FILENAME = "../data/day1.dat"
 
-
-def part1(filename=FILENAME):
+def part1(filename):
     data = np.genfromtxt(filename, dtype='int')
 
     for i in range(len(data)):
@@ -26,7 +24,7 @@ def part1(filename=FILENAME):
                 return
 
 
-def part2(filename=FILENAME):
+def part2(filename):
     data = np.genfromtxt(filename, dtype='int')
 
     for i in range(len(data)):
@@ -46,6 +44,6 @@ def part2(filename=FILENAME):
 
 if __name__ == "__main__":
     print("Part 1:")
-    part1()
+    part1("../data/day1.dat")
     print("\nPart 2:")
-    part2()
+    part2("../data/day1.dat")
