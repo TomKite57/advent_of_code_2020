@@ -7,10 +7,11 @@ This script will serve as a main menu which calls other days
 Tom Kite - 01/12/2020
 """
 
-from headers import day1
+from headers import day1, day2
 
 
-menu_options = {1: day1}
+menu_options = {1: day1,
+                2: day2}
 
 
 def int_input(entry):
@@ -49,9 +50,9 @@ if __name__ == "__main__":
 
         # Check it is part1 or part2 and solve
         if part_num == 1:
-            menu_options[day_num].part1("../data/day1.dat")
+            menu_options[day_num].part1("../data/day{}.dat".format(day_num))
         elif part_num == 2:
-            menu_options[day_num].part2("../data/day1.dat")
+            menu_options[day_num].part2("../data/day{}.dat".format(day_num))
         else:
             print("Only part 1 and 2 exist!")
 
