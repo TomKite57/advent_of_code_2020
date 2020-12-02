@@ -12,45 +12,44 @@ Tom Kite - 01/12/2020
 """
 
 
-import numpy as np
-
-
 def process_line_input(line):
-    line = line.strip('\n')
+    line = line.strip()
     nums, letter, password = line.split(' ')
     num_a, num_b = nums.split('-')
     letter = letter.strip(':')
-    return np.array([num_a, num_b, letter, password])
+    return [int(num_a), int(num_b), letter, password]
 
 
 def readfile(filename):
     with open(filename) as file:
         lines = file.readlines()
     data = [process_line_input(x) for x in lines]
-    return np.array(data)
+    return data
 
 
 def valid_password_part1(code):
-    count = code[3].count(code[2])
-    return int(code[0]) <= count <= int(code[1])
+    num1, num2, letter, password = code
+    count = password.count(letter)
+    return num1 <= count <= num2
 
 
 def valid_password_part2(code):
-    letters = code[3][int(code[0])-1] + code[3][int(code[1])-1]
-    return letters.count(code[2]) == 1
+    num1, num2, letter, password = code
+    letters = password[num1-1] + password[num2-1]
+    return letters.count(letter) == 1
 
 
 def part1(filename):
     data = readfile(filename)
     valid = [valid_password_part1(x) for x in data]
-    print("There are {} valid passwords, and {} invalid"
+    print("There are {} valid passwords, and {} invalid."
           .format(valid.count(1), valid.count(0)))
 
 
 def part2(filename):
     data = readfile(filename)
     valid = [valid_password_part2(x) for x in data]
-    print("There are {} valid passwords, and {} invalid"
+    print("There are {} valid passwords, and {} invalid."
           .format(valid.count(1), valid.count(0)))
 
 

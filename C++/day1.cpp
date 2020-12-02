@@ -7,12 +7,12 @@ the two or three that add to 2020
 Tom Kite - 01/12/20
 */
 
-using namespace std;
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+
+using namespace std;
 
 vector<int> read_data(string filename)
 {
@@ -25,7 +25,7 @@ vector<int> read_data(string filename)
     string line;
     while (getline(ifile, line))
     {
-        data.push_back(atoi(line.c_str()));
+        data.push_back(stoi(line));
     }
     ifile.close();
     return data;
