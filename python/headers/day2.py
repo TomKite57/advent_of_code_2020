@@ -8,7 +8,7 @@ and will process the code according to two criteria
 1) int1 <= string.count(char) <= int2
 2) (string[int1-1], string[int2-1]).count(char) == 1
 
-Tom Kite - 01/12/2020
+Tom Kite - 02/12/2020
 """
 
 

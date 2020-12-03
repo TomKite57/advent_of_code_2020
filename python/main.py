@@ -7,11 +7,12 @@ This script will serve as a main menu which calls other days
 Tom Kite - 01/12/2020
 """
 
-from headers import day1, day2
+from headers import day1, day2, day3
 
 
 menu_options = {1: day1,
-                2: day2}
+                2: day2,
+                3: day3}
 
 
 def int_input(entry):
