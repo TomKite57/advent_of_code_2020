@@ -2,7 +2,8 @@
 """
 Day 3 of Advent of Code 2020
 
-
+This script looks at moviing through a map counting the trees (#) as it does.
+The psoition increases by an amount (grad) each time.
 
 Tom Kite - 02/12/2020
 """
@@ -15,7 +16,7 @@ def readfile(name):
 
 
 def slide_down(pos, grad):
-    return [pos[0] + grad[0], pos[1] + grad[1]]
+    return [pos[i] + grad[i] for i in range(len(pos))]
 
 
 def check_tree(tree_map, pos):
