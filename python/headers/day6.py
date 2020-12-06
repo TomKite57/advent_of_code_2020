@@ -38,7 +38,7 @@ def count_any_answers(group_string):
 
 def count_matching_answers(group_string):
     substrs = group_string.split(',')
-    substrs = sorted(substrs, key=lambda s: len(s))
+    substrs = sorted(substrs, key=len)
     count = 0
     for char in substrs[0]:
         if all([(char in substr) for substr in substrs[1:]]):
