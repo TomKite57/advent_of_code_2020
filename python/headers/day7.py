@@ -6,8 +6,6 @@ Day 7 of Advent of Code 2020
 Tom Kite - 03/12/2020
 """
 
-from copy import deepcopy
-
 
 def readfile(filename):
     with open(filename, 'r') as file:
@@ -17,8 +15,9 @@ def readfile(filename):
 
 def process_line(line):
     parent_str, children_str = line.split(' bags contain ')
-    parent = [1] + [parent_str.split(' ')[0] + ' ' + parent_str.split(' ')[1]]
     children_str = children_str.split(',')
+    adj, col = parent_str.split(' ')[:2]
+    parent = adj + ' ' + col
     children = []
     for child in children_str:
         num, adj, col = child.strip().split(' ')[:3]
@@ -30,11 +29,10 @@ def process_line(line):
 
 
 def does_x_contain_y(x, y, recipes):
-    bags = deepcopy(recipes[x])
+    bags = recipes[x]
     while len(bags):
         new_bags = []
-        for _ in range(len(bags)):
-            bag = bags.pop(-1)
+        for bag in bags:
             if bag[1] == y:
                 return True
             if bag[1] is not None:
@@ -45,22 +43,20 @@ def does_x_contain_y(x, y, recipes):
 
 def count_children(x, recipes):
     total_count = 0
-    bags = deepcopy(recipes[x])
-    for i in range(len(bags)-1, -1, -1):
-        if bags[i][1] is None:
-            bags.pop(i)
-        else:
-            total_count += bags[i][0]*(count_children(bags[i][1], recipes) + 1)
+    bags = recipes[x]
+    for bag in bags:
+        if bag[1] is not None:
+            total_count += bag[0]*(count_children(bag[1], recipes) + 1)
     return total_count
 
 
 def part1(filename):
     data = readfile(filename)
-
     recipe_dict = {}
-    for i, line in enumerate(data):
+
+    for line in data:
         parent, children = process_line(line)
-        recipe_dict[parent[1]] = children
+        recipe_dict[parent] = children
 
     answer = sum([1 for x in recipe_dict.keys()
                   if does_x_contain_y(x, 'shiny gold', recipe_dict)])
@@ -71,11 +67,11 @@ def part1(filename):
 
 def part2(filename):
     data = readfile(filename)
-
     recipe_dict = {}
-    for i, line in enumerate(data):
+
+    for line in data:
         parent, children = process_line(line)
-        recipe_dict[parent[1]] = children
+        recipe_dict[parent] = children
 
     answer = count_children('shiny gold', recipe_dict)
 
