@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Day 8 of Advent of Code 2020
+Day 9 of Advent of Code 2020
 
 
-Tom Kite - 03/12/2020
+Tom Kite - 09/12/2020
 """
 
 

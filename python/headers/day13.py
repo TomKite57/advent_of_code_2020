@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Day 11 of Advent of Code 2020
+Day 13 of Advent of Code 2020
 
 
-Tom Kite - 03/12/2020
+Tom Kite - 13/12/2020
 """
 
 import numpy as np

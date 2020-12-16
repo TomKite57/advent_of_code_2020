@@ -3,7 +3,7 @@
 Day 6 of Advent of Code 2020
 
 
-Tom Kite - 03/12/2020
+Tom Kite - 06/12/2020
 """
 
 
