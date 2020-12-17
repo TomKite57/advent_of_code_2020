@@ -6,6 +6,9 @@ Day 17 of Advent of Code 2020
 Tom Kite - 17/12/2020
 """
 
+from aoc_tools.advent_timer import Advent_Timer
+from itertools import product
+
 
 def readfile(filename):
     with open(filename, 'r') as file:
@@ -13,125 +16,66 @@ def readfile(filename):
     return lines
 
 
-def process_initial_layer_3D(layer):
-    cube_locs = []
+def get_iteration_ranges(cube_locs):
+    ranges = []
+    for elem in cube_locs:
+        break
+    for i in range(len(elem)):
+        ranges.append(range(min(cube_locs, key=lambda c: c[i])[i]-1,
+                            max(cube_locs, key=lambda c: c[i])[i]+2))
+    return ranges
+
+
+def process_initial_layer(layer, dimensions):
+    cube_locs = set()
     counts_dict = {}
     for j, row in enumerate(layer):
         for i, col in enumerate(row):
             if col == '#':
-                cube_locs.append((i, j, 0))
-                counts_dict = add_to_counts_dict_3D((i, j, 0), counts_dict)
+                coord = tuple([i, j] + [0]*(dimensions-2))
+                cube_locs.add(coord)
+                counts_dict = add_to_counts_dict(coord, counts_dict)
     return cube_locs, counts_dict
 
 
-def add_to_counts_dict_3D(coords, counts_dict):
-    x, y, z = coords
-    for i in range(x-1, x+2):
-        for j in range(y-1, y+2):
-            for k in range(z-1, z+2):
-                if i == x and j == y and k == z:
-                    continue
-                if (i, j, k) not in counts_dict.keys():
-                    counts_dict[(i, j, k)] = 1
-                else:
-                    counts_dict[(i, j, k)] += 1
+def add_to_counts_dict(coords_in, counts_dict):
+    for coord in product(*get_iteration_ranges([coords_in])):
+        if coords_in == coord:
+            continue
+        if coord not in counts_dict.keys():
+            counts_dict[coord] = 1
+        else:
+            counts_dict[coord] += 1
     return counts_dict
 
 
-def evolve_pocket_dim_3D(cube_locs, counts_dict):
-    new_cube_locs = []
+def evolve_pocket_dim(cube_locs, counts_dict):
+    new_cube_locs = set()
     new_counts_dict = {}
-    xmin = min(cube_locs, key=lambda c: c[0])[0]
-    xmax = max(cube_locs, key=lambda c: c[0])[0]
-    ymin = min(cube_locs, key=lambda c: c[1])[1]
-    ymax = max(cube_locs, key=lambda c: c[1])[1]
-    zmin = min(cube_locs, key=lambda c: c[2])[2]
-    zmax = max(cube_locs, key=lambda c: c[2])[2]
+    ranges = get_iteration_ranges(cube_locs)
 
-    for i in range(xmin-1, xmax+2):
-        for j in range(ymin-1, ymax+2):
-            for k in range(zmin-1, zmax+2):
-                if (i, j, k) in counts_dict.keys():
-                    count = counts_dict[(i, j, k)]
-                else:
-                    count = 0
-                if (i, j, k) in cube_locs:
-                    if count == 2 or count == 3:
-                        new_cube_locs.append((i, j, k))
-                        new_counts_dict = \
-                            add_to_counts_dict_3D((i, j, k), new_counts_dict)
-                elif count == 3:
-                    new_cube_locs.append((i, j, k))
-                    new_counts_dict = \
-                        add_to_counts_dict_3D((i, j, k), new_counts_dict)
-    return new_cube_locs, new_counts_dict
-
-
-def process_initial_layer_4D(layer):
-    cube_locs = []
-    counts_dict = {}
-    for j, row in enumerate(layer):
-        for i, col in enumerate(row):
-            if col == '#':
-                cube_locs.append((i, j, 0, 0))
-                counts_dict = add_to_counts_dict_4D((i, j, 0, 0), counts_dict)
-    return cube_locs, counts_dict
-
-
-def add_to_counts_dict_4D(coords, counts_dict):
-    x, y, z, w = coords
-    for i in range(x-1, x+2):
-        for j in range(y-1, y+2):
-            for k in range(z-1, z+2):
-                for e in range(w-1, w+2):
-                    if i == x and j == y and k == z and e == w:
-                        continue
-                    if (i, j, k, e) not in counts_dict.keys():
-                        counts_dict[(i, j, k, e)] = 1
-                    else:
-                        counts_dict[(i, j, k, e)] += 1
-    return counts_dict
-
-
-def evolve_pocket_dim_4D(cube_locs, counts_dict):
-    new_cube_locs = []
-    new_counts_dict = {}
-    xmin = min(cube_locs, key=lambda c: c[0])[0]
-    xmax = max(cube_locs, key=lambda c: c[0])[0]
-    ymin = min(cube_locs, key=lambda c: c[1])[1]
-    ymax = max(cube_locs, key=lambda c: c[1])[1]
-    zmin = min(cube_locs, key=lambda c: c[2])[2]
-    zmax = max(cube_locs, key=lambda c: c[2])[2]
-    wmin = min(cube_locs, key=lambda c: c[3])[3]
-    wmax = max(cube_locs, key=lambda c: c[3])[3]
-
-    for i in range(xmin-1, xmax+2):
-        for j in range(ymin-1, ymax+2):
-            for k in range(zmin-1, zmax+2):
-                for e in range(wmin-1, wmax+2):
-                    if (i, j, k, e) in counts_dict.keys():
-                        count = counts_dict[(i, j, k, e)]
-                    else:
-                        count = 0
-                    if (i, j, k, e) in cube_locs:
-                        if count == 2 or count == 3:
-                            new_cube_locs.append((i, j, k, e))
-                            new_counts_dict = \
-                                add_to_counts_dict_4D((i, j, k, e),
-                                                      new_counts_dict)
-                    elif count == 3:
-                        new_cube_locs.append((i, j, k, e))
-                        new_counts_dict = \
-                            add_to_counts_dict_4D((i, j, k, e),
-                                                  new_counts_dict)
+    for coord in product(*ranges):
+        if coord in counts_dict.keys():
+            count = counts_dict[coord]
+        else:
+            count = 0
+        if coord in cube_locs:
+            if count == 2 or count == 3:
+                new_cube_locs.add(coord)
+                new_counts_dict = \
+                    add_to_counts_dict(coord, new_counts_dict)
+        elif count == 3:
+            new_cube_locs.add(coord)
+            new_counts_dict = \
+                add_to_counts_dict(coord, new_counts_dict)
     return new_cube_locs, new_counts_dict
 
 
 def part1(filename):
     data = readfile(filename)
-    cube_locs, counts_dict = process_initial_layer_3D(data)
+    cube_locs, counts_dict = process_initial_layer(data, 3)
     for _ in range(6):
-        cube_locs, counts_dict = evolve_pocket_dim_3D(cube_locs, counts_dict)
+        cube_locs, counts_dict = evolve_pocket_dim(cube_locs, counts_dict)
     print("After 6 cycles there are {} active cubes."
           .format(len(cube_locs)))
     return
@@ -139,17 +83,23 @@ def part1(filename):
 
 def part2(filename):
     data = readfile(filename)
-    cube_locs, counts_dict = process_initial_layer_4D(data)
+    cube_locs, counts_dict = process_initial_layer(data, 4)
     for i in range(6):
-        print(i, '/', '6')
-        cube_locs, counts_dict = evolve_pocket_dim_4D(cube_locs, counts_dict)
+        cube_locs, counts_dict = evolve_pocket_dim(cube_locs, counts_dict)
     print("After 6 cycles there are {} active cubes."
           .format(len(cube_locs)))
     return
 
 
 if __name__ == "__main__":
+    timer = Advent_Timer()
+
     print("Part 1:")
     part1("../../data/day17.dat")
+    timer.checkpoint_hit()
+
     print("\nPart 2:")
     part2("../../data/day17.dat")
+    timer.checkpoint_hit()
+
+    timer.end_hit()
