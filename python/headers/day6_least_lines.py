@@ -6,6 +6,8 @@ Day 6 of Advent of Code 2020
 Tom Kite - 03/12/2020
 """
 
+from aoc_tools.advent_timer import Advent_Timer
+
 
 def get_groups(filename):
     with open(filename, 'r') as file:
@@ -26,7 +28,14 @@ def part2(filename):
 
 
 if __name__ == "__main__":
+    timer = Advent_Timer()
+
     print("Part 1:")
     part1("../../data/day6.dat")
+    timer.checkpoint_hit()
+
     print("\nPart 2:")
     part2("../../data/day6.dat")
+    timer.checkpoint_hit()
+
+    timer.end_hit()

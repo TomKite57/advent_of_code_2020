@@ -6,6 +6,8 @@ Day 5 of Advent of Code 2020
 Tom Kite - 05/12/2020
 """
 
+from aoc_tools.advent_timer import Advent_Timer
+
 
 def readfile(name):
     with open(name) as file:
@@ -53,7 +55,14 @@ def part2(filename):
 
 
 if __name__ == "__main__":
+    timer = Advent_Timer()
+
     print("Part 1:")
     part1("../../data/day5.dat")
+    timer.checkpoint_hit()
+
     print("\nPart 2:")
     part2("../../data/day5.dat")
+    timer.checkpoint_hit()
+
+    timer.end_hit()
