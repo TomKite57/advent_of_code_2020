@@ -17,30 +17,18 @@ def readfile(filename):
 
 class memory_game():
     def __init__(self, start_nums):
-        self.last_turn = {}
+        self.last_turn_dict = {}
         self.initial_nums = start_nums
-        self.counter = 0
-        for num in self.initial_nums:
-            self.last_turn[num] = [self.counter, ]
-            self.counter += 1
+        for i, num in enumerate(self.initial_nums):
+            self.last_turn_dict[num] = i
         self.prev_num = self.initial_nums[-1]
 
     def evolve_till(self, N):
-        while self.counter < N:
-            if len(self.last_turn[self.prev_num]) < 2:
-                num = 0
-            else:
-                turns = self.last_turn[self.prev_num]
-                num = turns[-1] - turns[-2]
-
-            if num in self.last_turn.keys():
-                self.last_turn[num].append(self.counter)
-                self.last_turn[num] = self.last_turn[num][-2:]
-            else:
-                self.last_turn[num] = [self.counter, ]
-            self.prev_num = num
-            self.counter += 1
-        return num
+        for i in range(len(self.initial_nums), N):
+            turns = self.last_turn_dict.get(self.prev_num, i-1)
+            self.last_turn_dict[self.prev_num] = i-1
+            self.prev_num = i - 1 - turns
+        return self.prev_num
 
 
 def part1(filename):
