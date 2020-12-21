@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Day 18 of Advent of Code 2020
+Day 19 of Advent of Code 2020
 
-
-Tom Kite - 18/12/2020
+Tom Kite - 19/12/2020
 """
 
 from aoc_tools.advent_timer import Advent_Timer
