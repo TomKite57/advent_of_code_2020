@@ -4,9 +4,10 @@ Advent of Code 2020
 
 This script will serve as a main menu which calls other days solutions
 
-Tom Kite - 16/12/2020
+Tom Kite - 25/12/2020
 """
 
+from aoc_tools.advent_timer import Advent_Timer
 from headers import day1, day2, day3, day4, day5, day6, day7, day8, day9,\
                     day10, day11, day12, day13, day14, day15, day16, day17,\
                     day18, day19, day20, day21, day22, day23, day24
@@ -17,6 +18,16 @@ menu_options = {1: day1, 2: day2, 3: day3, 4: day4, 5: day5,
                 11: day11, 12: day12, 13: day13, 14: day14, 15: day15,
                 16: day16, 17: day17, 18: day18, 19: day19, 20: day20,
                 21: day21, 22: day22, 23: day23, 24: day24}
+
+
+def all_days():
+    timer = Advent_Timer()
+    for day in menu_options:
+        menu_options[day].part1("../data/day{}.dat".format(day))
+        timer.checkpoint_hit()
+        menu_options[day].part2("../data/day{}.dat".format(day))
+        timer.checkpoint_hit()
+    timer.end_hit()
 
 
 def int_input(entry):
@@ -41,6 +52,10 @@ if __name__ == "__main__":
         # Check for exit
         if day_num == -1:
             break
+        # Run all days
+        if day_num == 2020:
+            all_days()
+            continue
         # Check day exists
         if day_num not in menu_options.keys():
             print("I haven't solved that day yet!")
